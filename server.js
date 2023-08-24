@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
+const PORT = process.env.PORT || 65535
+const path = require('path')
+
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 //CRUD
@@ -41,28 +44,51 @@ var mock_db = [{
   "value": "Chuck Norris' favorite flavor of gum is Tarantula."
 }
 ]
+function checkCookie(req, res, next){
+  console.log("7777777777777")
+  next()
+}
 
-app.get('/product/:id/:product/:banana', function (request, response) {
+app.use(checkCookie)
+
+function middleware(req, res, next){
+  console.log(req)
+  console.log("inside middleware")
+  if (req.body.currentUser==true){
+  next()
+  }else{
+    res.send("make sure to login")
+  }
+}
+console.log("--------")
+console.log(__dirname)
+console.log("--------")
+
+app.get("/", (req, res)=>{
+  res.sendFile(path.join(__dirname, 'index.html'))
+})
+
+app.get('/product/:id', function (req, res) {
   var matchedData = {}
   for (let i = 0; i < mock_db.length; i++) {
-   if(request.params.id == mock_db[i].id){
+   if(req.params.id == mock_db[i].id){
     matchedData = mock_db[i]
    }
   }
-  response.json(matchedData)
+  res.json(matchedData)
 })
 
 
-app.post('/product', function (req, res) {
-  console.log(req.body.dogName)
+app.post('/product',middleware, function (req, res) {
+ 
   res.send('Hello World from POST')
 })
 
-app.put('/product', function (req, res) {
+app.put('/product', middleware, function (req, res) {
   res.send('Hello World PUT')
 })
 
-app.delete('/product', function (req, res) {
+app.delete('/product', middleware, function (req, res) {
   res.send('Hello World DELETE')
 })
 
@@ -71,8 +97,6 @@ app.get('/product', function (request, response) {
   response.json(mock_db[1])
 })
 
-
-
-app.listen(65535, function () {
+app.listen(PORT, function () {
   console.log("listening on port 65535")
 })
