@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>first server</h1>
+    <div id="joke"></div>
+
+    <form id="frm1">
+        icon url:  <input id="iconurl" type="text" name="iconurl"><br>
+        url: <input id="url" type="text" name="url"><br><br>
+        value: <input id="value" type="text" name="value"><br><br>
+        <input type="button" onclick="postJoke" value="Submit">
+      </form>
+
+    <script>
+        // fetch("/product/09380jasdf8")
+        // .then(data => data.json())
+        // .then(cleanedData=>{
+        //     console.log(cleanedData.value)
+        //     document.getElementById("joke").innerHTML = cleanedData.value
+        // })
+
+ 
+
+async function postJoke(e){
+    
+    let iconURL = document.getElementById('iconurl').value;
+    let url = document.getElementById('url').value;
+    let value = document.getElementById('value').value;
+
+    console.log("*****")
+    console.log(iconURL)
+    console.log(url)
+    console.log(value)
+    console.log("*****")
+    var data = {
+        iconURL:iconURL,
+        url:url,
+        value:value
+    }
+
+   const response = await fetch("http://localhost:65535/createjoke", {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    // credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    // redirect: "follow", // manual, *follow, error
+    // referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data),// body data type must match "Content-Type" header
+  });
+
+  console.log("11111111111")
+  console.log()
+  console.log("11111111111"); // parses JSON response into native JavaScript objects
+}
+
+    </script>
+</body>
+</html>
