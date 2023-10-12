@@ -99,9 +99,10 @@ function middleware(req, res, next) {
     res.send("make sure to login")
   }
 }
-console.log("--------")
+console.log("---------------------------------------------------")
 console.log(__dirname)
-console.log("--------")
+console.log(process.env.PORT)
+console.log("---------------------------------------------------")
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "frontend", 'index.html'))
