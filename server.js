@@ -15,8 +15,12 @@ const Dog = require("./models/Dogs")
 const Joke = require("./models/Joke")
 
 //CRUD
+console.log("%%%%%%%%%")
+console.log(process.env.MONGO_URI)
+console.log("%%%%%%%%%")
 
-const MONGO_URI = process.env.MONGO_URI ||'mongodb://localhost:27017';
+// const MONGO_URI = process.env.MONGO_URI ||'mongodb://localhost:27017';
+const MONGO_URI = process.env.MONGO_URI 
 const client = new MongoClient(MONGO_URI);
 
 
@@ -121,7 +125,7 @@ app.get('/product/:id', function (req, res) {
 
 app.post('/createjoke', function (req, res) {
   console.log("&&&&&&&&&")
-  console.log(req)
+  console.log(req.body)
   console.log("&&&&&&&&&")
 
   const newJoke = new Joke(req.body)
